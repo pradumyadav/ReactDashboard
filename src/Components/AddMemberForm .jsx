@@ -78,7 +78,7 @@ export default function AddMemberForm({ onClose, onSubmit }) {
     <div className="w-full h-full z-50 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center overflow-y-auto">
       <div className="bg-white w-[50%] rounded-lg my-8 shadow-lg overflow-hidden ">
         <div className="flex justify-between items-center p-4 ">
-          <h2 className="text-2xl font-semibold">Edit Profile</h2>
+          <h2 className="text-[1.5rem] font-bold">Edit Profile</h2>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="p-4 ">
           <div className="flex justify-center mb-6">
@@ -92,14 +92,14 @@ export default function AddMemberForm({ onClose, onSubmit }) {
               <div className="absolute-bottom-2 flex left-1/2 transform-translate-x-1/2 space-x-2">
                 <button
                   type="button"
-                  className="bg-slate-50 flex items-center justify-center gap-2 0 border border-gray-300  font-bold px-3 p-2 rounded-md text-sm "
+                  className="bg-slate-50 flex items-center tracking-widest justify-center gap-2 0 border border-gray-300  font-bold px-3 p-2 rounded-md text-sm "
                 >
                   <PiArrowCounterClockwiseFill className="text-xl" />
                   CHANGE PHOTO
                 </button>
                 <button
                   type="button"
-                  className="bg-slate-50 flex items-center justify-center gap-2 text-gray-700 border border-gray-300 px-3 font-bold py-1 rounded-md text-sm "
+                  className="bg-slate-50 flex items-center tracking-widest justify-center gap-2  border border-gray-300 px-3 font-bold py-1 rounded-md text-sm "
                 >
                   {" "}
                   <MdDeleteOutline className="text-xl" />
@@ -237,13 +237,13 @@ export default function AddMemberForm({ onClose, onSubmit }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md text-md font-bold bg-white hover:bg-gray-50"
+              className="px-4 py-2 border border-gray-300 tracking-widest rounded-md text-md font-bold bg-white hover:bg-gray-50"
             >
               CANCEL
             </button>
             <button
               type="submit"
-              className={`px-6 py-2 rounded-md text-md font-bold ${
+              className={`px-6 py-2 rounded-md text-md tracking-widest font-bold ${
                 isFormModified
                   ? "bg-indigo-600 text-white hover:bg-indigo-700"
                   : "bg-gray-100 text-gray-300 hover:bg-gray-200"

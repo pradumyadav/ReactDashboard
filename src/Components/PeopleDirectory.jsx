@@ -15,6 +15,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { IoMdSearch } from "react-icons/io";
 import FilterPopup from "./FilterPopup";
 import AddMemberForm from "./AddMemberForm ";
+import DeletePopup from "./DeletePopup";
 function PeopleDirectory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPerson, setSelectedPerson] = useState(null);
@@ -23,6 +24,10 @@ function PeopleDirectory() {
   const [selectedFilters, setSelectedFilters] = useState({
     roles: [],
     teams: [],
+  });
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    isOpen: false,
+    person: null,
   });
   const [isAddMemberFormOpen, setIsAddMemberFormOpen] = useState(false);
   const columns = useMemo(
@@ -116,20 +121,6 @@ function PeopleDirectory() {
           );
         },
       },
-      {
-        header: "Actions",
-        cell: () => (
-          <>
-            <button className="z-20 text-[1.25rem] text-gray-500 mr-4">
-              <MdDeleteOutline />
-            </button>
-
-            <button className="text-[1.25rem] text-gray-500 ">
-              <FiEdit2 />
-            </button>
-          </>
-        ),
-      },
     ],
     []
   );
@@ -161,6 +152,19 @@ function PeopleDirectory() {
 
     setIsAddMemberFormOpen(false);
   };
+  const handleDeleteClick = (e, person) => {
+    e.stopPropagation();
+    setDeleteConfirmation({ isOpen: true, person });
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteConfirmation.person) {
+      // Implement actual delete logic here
+      console.log("Deleting:", deleteConfirmation.person);
+    }
+    setDeleteConfirmation({ isOpen: false, person: null });
+  };
+
   return (
     <div className="relative p-6 bg-white border-2 rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-4">
@@ -253,17 +257,41 @@ function PeopleDirectory() {
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
+              className="relative"
               onClick={() => handleRowClick(row.original)}
-              className="cursor-pointer hover:bg-gray-50"
             >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="px-6 py-4 whitespace-nowrap">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
+              <td className="px-6 py-4 whitespace-nowrap text-right">
+                <div className="flex items-center justify-end">
+                  <button
+                    className="text-[1.25rem] text-gray-500  mr-4 hover:text-gray-700"
+                    onClick={(e) => handleDeleteClick(e, row.original)}
+                  >
+                    <MdDeleteOutline />
+                  </button>
+                  <button
+                    className="text-[1.25rem] text-gray-500  hover:text-gray-700"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEdit(row.original);
+                    }}
+                  >
+                    <FiEdit2 />
+                  </button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
+        <DeletePopup
+          isOpen={deleteConfirmation.isOpen}
+          onClose={() => setDeleteConfirmation({ isOpen: false, person: null })}
+          onConfirm={handleDeleteConfirm}
+        />
       </table>
       <div className="mt-4 flex justify-between">
         <button
