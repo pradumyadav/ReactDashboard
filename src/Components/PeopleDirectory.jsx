@@ -19,6 +19,7 @@ import DeletePopup from "./DeletePopup";
 function PeopleDirectory() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPerson, setSelectedPerson] = useState(null);
+  const [editingPerson, setEditingPerson] = useState(null);
   const [sorting, setSorting] = useState([]);
   const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({
@@ -140,8 +141,14 @@ function PeopleDirectory() {
     onSortingChange: setSorting,
   });
 
+  const handleEdit = (person) => {
+    setEditingPerson(person);
+    setIsAddMemberFormOpen(true);
+  };
   const handleRowClick = (person) => {
-    setSelectedPerson(person);
+    if (!editingPerson) {
+      setSelectedPerson(person);
+    }
   };
 
   const closeSidePanel = () => {
@@ -210,11 +217,15 @@ function PeopleDirectory() {
         </div>
 
         {isAddMemberFormOpen && (
-          <AddMemberForm
-            onClose={() => setIsAddMemberFormOpen(false)}
-            onSubmit={handleAddMember}
-          />
-        )}
+        <AddMemberForm
+          onClose={() => {
+            setIsAddMemberFormOpen(false);
+            setEditingPerson(null);
+          }}
+          onSubmit={handleAddMember}
+          editingPerson={editingPerson}
+        />
+      )}
       </div>
       <table className="w-full bg-white  overflow-hidden">
         <thead className="bg-gray-50">
@@ -274,7 +285,7 @@ function PeopleDirectory() {
                     <MdDeleteOutline />
                   </button>
                   <button
-                    className="text-[1.25rem] text-gray-500  hover:text-gray-700"
+                    className="text-[1.25rem] text-gray-500 hover:text-gray-700"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleEdit(row.original);
